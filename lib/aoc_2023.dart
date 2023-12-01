@@ -1,24 +1,51 @@
+final digitTranslations = [
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine'
+];
+
 int textCalibrationValue(String text) {
-  final regExp = RegExp(r'\d');
+  final firstValue = _value(digitTranslations, text);
+  final lastValue = _value(
+      digitTranslations.map((e) => e.split('').reversed.join()).toList(),
+      text.split('').reversed.join());
+  return firstValue * 10 + lastValue;
+}
+
+int _value(List<String> digitTranslations, String text) {
+  final digitTranslationOrRegex = digitTranslations.join('|');
+
+  final regExpSource = '\\d|$digitTranslationOrRegex';
+  final regExp = RegExp(regExpSource);
   final matches = regExp.allMatches(text);
   final firstMatch = matches.firstOrNull;
-  final lastMatch = matches.lastOrNull;
 
   int intValue(RegExpMatch? match) {
-    return match == null
-        ? 0
-        : int.parse(text.substring(match.start, match.end));
+    int digit(String digitTranslation) {
+      return digitTranslations.indexOf(digitTranslation) + 1;
+    }
+
+    if (match == null) {
+      return 0;
+    } else {
+      final matchedText = match.group(0)!;
+      return int.tryParse(matchedText) ?? digit(matchedText);
+    }
   }
 
-  final first = intValue(firstMatch);
-  final last = intValue(lastMatch);
-
-  return first * 10 + last;
+  return intValue(firstMatch);
 }
 
 int documentCalibrationValue(String document) {
   final lines = document.split('\n');
-  return lines
-      .map((element) => textCalibrationValue(element))
-      .reduce((value, element) => value + element);
+  return lines.map((element) {
+    print('$element = ${textCalibrationValue(element)}');
+    return textCalibrationValue(element);
+  }).reduce((value, element) => value + element);
 }

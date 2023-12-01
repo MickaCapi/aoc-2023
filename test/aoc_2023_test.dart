@@ -8,13 +8,24 @@ void main() {
     expect(textCalibrationValue('a1b2c3d4e5f'), 15);
     expect(textCalibrationValue('treb7uchet'), 77);
     expect(textCalibrationValue('coucou'), 0);
+    expect(textCalibrationValue('two1nine'), 29);
+    expect(textCalibrationValue('eightwothree'), 83);
+    expect(textCalibrationValue('eightwone'), 81);
+    expect(textCalibrationValue('abcone2threexyz'), 13);
+    expect(textCalibrationValue('xtwone3four'), 24);
+    expect(textCalibrationValue('4nineeightseven2'), 42);
+    expect(textCalibrationValue('zoneight234'), 14);
+    expect(textCalibrationValue('7pqrstsixteen'), 76);
   });
 
   test('documentCalibrationValue', () {
-    expect(documentCalibrationValue('''1abc2
-pqr3stu8vwx
-a1b2c3d4e5f
-treb7uchet'''), 142);
+    expect(documentCalibrationValue('''two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen'''), 281);
   });
 
   test('aoc-2023', () {
