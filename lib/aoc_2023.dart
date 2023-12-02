@@ -1,7 +1,11 @@
 // 'Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green'
-int gameIdOrZeroIfImpossible(String game, int red, int green, int blue) {
+import 'dart:math';
+
+int power(String game, int red, int green, int blue) {
   final colonSplit = game.split(':');
-  final gameId = int.parse(colonSplit[0].split(' ')[1]);
+  var redPower = 0;
+  var greenPower = 0;
+  var bluePower = 0;
 
   final games = colonSplit[1].split(';');
   for (final game in games) {
@@ -13,22 +17,22 @@ int gameIdOrZeroIfImpossible(String game, int red, int green, int blue) {
       final colorName = spaceSplit[2];
       switch (colorName) {
         case 'red':
-          if (colorNumber > red) return 0;
+          redPower = max(redPower, colorNumber);
         case 'green':
-          if (colorNumber > green) return 0;
+          greenPower = max(greenPower, colorNumber);
         case 'blue':
-          if (colorNumber > blue) return 0;
+          bluePower = max(bluePower, colorNumber);
       }
     }
   }
 
-  return gameId;
+  return redPower * greenPower * bluePower;
 }
 
 int calculate(String games, int red, int green, int blue) {
   final lineBreakSplit = games.split('\n');
 
   return lineBreakSplit
-      .map((game) => gameIdOrZeroIfImpossible(game, red, green, blue))
+      .map((game) => power(game, red, green, blue))
       .reduce((value, element) => value + element);
 }
