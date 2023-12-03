@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 
-final numberRegExp = RegExp(r'\d+');
-final notSymbolRegExp = RegExp(r'\d|\.');
+final starRegExp = RegExp(r'\*');
 
 int calculate(String engineSchematic) {
   var sum = 0;
@@ -12,7 +11,7 @@ int calculate(String engineSchematic) {
   final matrix = lines.map((line) => line.split('')).toList();
 
   lines.forEachIndexed((lineIndex, line) {
-    numberRegExp.allMatches(line).forEach((match) {
+    starRegExp.allMatches(line).forEach((match) {
       //print('${match.group(0)} [$lineIndex - ${match.start}/${match.end}]');
 
       final startSearchRow = max(0, lineIndex - 1);
@@ -21,21 +20,53 @@ int calculate(String engineSchematic) {
       final startSearchColumn = max(0, match.start - 1);
       final endSearchColumn = min(line.length - 1, match.end);
 
-      rowLoop:
+      final numbers = <int>[];
+
       for (var rowIndex = startSearchRow;
           rowIndex <= endSearchRow;
           rowIndex++) {
         for (var columnIndex = startSearchColumn;
             columnIndex <= endSearchColumn;
             columnIndex++) {
-          //print(matrix[rowIndex][columnIndex]);
-          if (notSymbolRegExp.hasMatch(matrix[rowIndex][columnIndex]) ==
-              false) {
-            //print('add');
-            sum += int.parse(match.group(0)!);
-            break rowLoop;
+          final character = matrix[rowIndex][columnIndex];
+          //print(character);
+          var figure = int.tryParse(character);
+          if (figure != null) {
+            var numberString = character;
+
+            // print('figure');
+            for (var figureColumnIndex = columnIndex - 1;
+                figureColumnIndex >= 0;
+                figureColumnIndex--) {
+              final previousCharacter = matrix[rowIndex][figureColumnIndex];
+              if (int.tryParse(previousCharacter) == null) {
+                break;
+              }
+              numberString = previousCharacter + numberString;
+              // print(previousCharacter);
+            }
+
+            for (var figureColumnIndex = columnIndex + 1;
+                figureColumnIndex < line.length;
+                figureColumnIndex++) {
+              final nextCharacter = matrix[rowIndex][figureColumnIndex];
+              if (int.tryParse(nextCharacter) == null) {
+                break;
+              }
+              numberString = numberString + nextCharacter;
+              // print(nextCharacter);
+              columnIndex = figureColumnIndex;
+            }
+
+            sum += 0;
+            //print('numberString $numberString');
+            numbers.add(int.parse(numberString));
           }
         }
+      }
+
+      if (numbers.length == 2) {
+        sum += numbers[0] * numbers[1];
       }
     });
   });

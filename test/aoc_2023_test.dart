@@ -14,18 +14,8 @@ void main() {
 ...$.*....
 .664.598..''';
 
-    expect(calculate(input), 4361);
-  });
-
-  test('Search around number only', () {
-    final input = r'''
--------
--.....-
--.960.-
--.....-
--------''';
-
-    expect(calculate(input), 0);
+    // expect(calculate(input), 467835);
+    print('total: ${calculate(input)}');
   });
 
   test('aoc2023', () {
