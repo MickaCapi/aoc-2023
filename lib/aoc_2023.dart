@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 /*
 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
@@ -7,7 +9,14 @@ Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11'
 */
 int calculate(String cards) {
-  return cards.split('\n').map((card) {
+  final cardsSplit = cards.split('\n');
+  final cardsNumber = cardsSplit.length;
+  final copies = List.generate(
+    cardsNumber,
+    (index) => 1,
+  );
+
+  return cardsSplit.mapIndexed((index, card) {
     final pipeSplit = card.split(':')[1].split('|');
     final winningNumbers = pipeSplit[0]
         .split(' ')
@@ -20,15 +29,11 @@ int calculate(String cards) {
         .where((element) => element != null)
         .toSet();
     final intersectLength = winningNumbers.intersection(numbers).length;
-    var value = 0;
+
     for (var i = 0; i < intersectLength; i++) {
-      if (i == 0) {
-        value = 1;
-      } else {
-        value *= 2;
-      }
+      copies[index + i + 1] += copies[index];
     }
-    return value;
+    return copies[index];
   }).reduce((value, element) => value + element);
 
   // return 13;
