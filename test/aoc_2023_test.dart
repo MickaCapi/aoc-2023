@@ -3,6 +3,16 @@ import 'package:test/test.dart';
 
 void main() {
   test('calculate', () {
-    expect(calculate(), 42);
+    final input = '''''';
+
+    print(calculate(input));
+
+    expect(calculate(input), 24000);
+  });
+
+  test('aoc 2023', () {
+    final input = '''''';
+
+    print(calculate(input));
   });
 }
