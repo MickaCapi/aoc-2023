@@ -42,7 +42,7 @@ humidity-to-location map:
 
     final result = calculate(input);
 
-    expect(result, 35);
+    expect(result, 46);
   });
 
   test('aoc 2023', () {

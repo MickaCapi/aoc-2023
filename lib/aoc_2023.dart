@@ -41,22 +41,38 @@ int calculate(String input) {
   final seedNumbers = inputNumbers[0][0];
   final otherNumbers = inputNumbers.sublist(1);
 
-  return seedNumbers.map((seedNumber) {
-    var currentNumber = seedNumber;
-    for (var on in otherNumbers) {
+  var seed = -1;
+  var location = 0;
+  final reversedOtherNumbers = otherNumbers.reversed;
+  while (seed == -1) {
+    var currentNumber = location;
+    for (var on in reversedOtherNumbers) {
       for (var o in on) {
         final destination = o[0];
         final source = o[1];
         final length = o[2];
-        if (source <= currentNumber && currentNumber <= source + length) {
-          final diff = currentNumber - source;
-          currentNumber = destination + diff;
+        if (destination <= currentNumber &&
+            currentNumber <= destination + length) {
+          final diff = currentNumber - destination;
+          currentNumber = source + diff;
           break;
         }
       }
     }
-    return currentNumber;
-  }).reduce(min);
+
+    for (var i = 0; i < seedNumbers.length; i += 2) {
+      final minSeed = seedNumbers[i];
+      final maxSeed = seedNumbers[i] + seedNumbers[i + 1];
+      if (minSeed <= currentNumber && currentNumber <= maxSeed) {
+        seed = location;
+        break;
+      }
+    }
+
+    location++;
+  }
+
+  return seed;
 }
 
 List<List<List<int>>> getInputNumbers(String input) {
