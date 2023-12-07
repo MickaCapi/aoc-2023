@@ -4,7 +4,7 @@
 
 final cardRank = {
   'T': 10,
-  'J': 11,
+  'J': 1,
   'Q': 12,
   'K': 13,
   'A': 14,
@@ -43,6 +43,7 @@ int calculate(String input) {
     sum += (i + 1) * sortedHands[i].bid;
   }
   return sum;
+  //5905
 }
 
 int getRank(String hand) {
@@ -55,8 +56,14 @@ int getRank(String hand) {
       dict[card] = 1;
     }
   }
+  final jackNumber = dict.remove('J') ?? 0;
   final unsortedKinds = dict.values.toList()..sort();
   final kinds = unsortedKinds.reversed.toList();
+  if (jackNumber == 5) {
+    kinds.add(5);
+  } else {
+    kinds[0] += jackNumber;
+  }
 
   if (kinds.length == 1) {
     return 1;
