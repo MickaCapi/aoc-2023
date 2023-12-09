@@ -11,7 +11,8 @@ int calculate(String input) {
         .toList();
   }).map((e) {
     return diffLists(e)
-        .fold(0, (previousValue, element) => previousValue + element.last);
+        .reversed
+        .fold(0, (previousValue, element) => element.first - previousValue);
   }).reduce((value, element) => value + element);
 }
 
