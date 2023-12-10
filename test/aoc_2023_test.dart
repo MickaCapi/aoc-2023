@@ -2,7 +2,7 @@ import 'package:aoc_2023/aoc_2023.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('calculate', () {
+  test('calculate 1', () {
     final input = '''.....
 .S-7.
 .|.|.
@@ -10,6 +10,89 @@ void main() {
 .....''';
 
     print(calculate(input));
+
+    // expect(calculate(input), 1);
+  });
+
+  test('calculate 2', () {
+    final input = '''......
+.S--7.
+.|..|.
+.|.FJ.
+.L-J..
+......''';
+
+    print(calculate(input));
+
+    // expect(calculate(input), 1);
+  });
+
+  test('calculate 3', () {
+    final input = '''...........
+.S-------7.
+.|F-7.F-7|.
+.||.L-J.||.
+.||.....||.
+.|L-7.F-J|.
+.|..|.|..|.
+.L--J.L--J.
+...........''';
+
+    print(calculate(input));
+
+    // expect(calculate(input), 5);
+  });
+
+  test('calculate 4', () {
+    final input = '''............
+.S--------7.
+.|F-----7.|.
+.||.....|.|.
+.||....FJ.|.
+.|L-7F-J..|.
+.|..||....|.
+.L--JL----J.
+............''';
+
+    print(calculate(input));
+
+    // expect(calculate(input), 11);
+  });
+
+  test('calculate 5', () {
+    final input = '''FFFFFFFFFFFFFF
+S------------7
+|...F-------7|
+|.-.|.......||
+|.|.|.......||
+|LJ.|.F-7.F-J|
+L7..|.|.|.|.FJ
+.|..|.|.|.|.|.
+FJ..L-J.|.|.L7
+|.......|.|..|
+L-------J.L--J
+FFFFFFFFFFFFFF''';
+
+    print(calculate(input));
+
+    // expect(calculate(input), 33);
+  });
+
+  test('calculate 8', () {
+    final input = '''.F----7F7F7F7F-7....
+.|F--7||||||||FJ....
+.||.FJ||||||||L7....
+FJL7L7LJLJ||LJ.L-7..
+L--J.L7...LJS7F-7L7.
+....F-J..F7FJ|L7L7L7
+....L7.F7||L7|.L7L7|
+.....|FJLJ|FJ|F7|.LJ
+....FJL-7.||.||||...
+....L---J.LJ.LJLJ...''';
+
+    print(calculate(input));
+
+    // expect(calculate(input), 8);
   });
 
   test('aoc 2023', () {

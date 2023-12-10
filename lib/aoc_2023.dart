@@ -49,16 +49,16 @@ int calculate(String input) {
   var previousY = startY;
   var currentX = startingNextStep.$1;
   var currentY = startingNextStep.$2;
-  var distance = 1;
+  final path = [(startX, startY)];
 
   while (currentX != startX || currentY != startY) {
-    // while (distance < 9) {
-    distance++;
-
     final newPreviousX = currentX;
     final newPreviousY = currentY;
 
     final character = characters[currentY][currentX];
+
+    path.add((currentX, currentY));
+
     // print(character);
     // print('$previousX - $previousY | $currentX - $currentY');
     switch (character) {
@@ -110,5 +110,31 @@ int calculate(String input) {
     previousY = newPreviousY;
   }
 
-  return distance ~/ 2;
+  var xTilesInsideCount = 0;
+  for (var y = 0; y < characters.length; y++) {
+    final charactersLine = characters[y];
+
+    var characterOfLineInPathCount = 0;
+    String? lastTurnCharacter;
+    for (var x = 0; x < charactersLine.length; x++) {
+      final character = characters[y][x];
+      if (path.contains((x, y))) {
+        if (character == '|') {
+          characterOfLineInPathCount++;
+        } else if (lastTurnCharacter == null) {
+          lastTurnCharacter = character;
+        } else if (character != '-') {
+          if (!(lastTurnCharacter == 'L' && character == 'J') &&
+              !(lastTurnCharacter == 'F' && character == '7')) {
+            characterOfLineInPathCount++;
+          }
+          lastTurnCharacter = null;
+        }
+      } else if (characterOfLineInPathCount % 2 == 1) {
+        xTilesInsideCount++;
+      }
+    }
+  }
+
+  return xTilesInsideCount;
 }
