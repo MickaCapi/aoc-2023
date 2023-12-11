@@ -1,2 +1,2 @@
 Quick and dirty 🙃
-One branch = one challenge
+One branch per day, one commit per part
