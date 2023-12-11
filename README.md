@@ -1,2 +1,3 @@
 Quick and dirty 🙃
-One branch per day, one commit per part
+
+One branch for each day, one commit for each part
