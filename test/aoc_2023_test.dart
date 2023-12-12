@@ -3,18 +3,43 @@ import 'package:test/test.dart';
 
 void main() {
   test('arrangementsCount 1', () {
-    final input = '''???.### 1,1,3''';
+    final input = '''???.###? 1,1,3''';
 
     print(calculate(input));
 
     // expect(calculate(input), 1);
   });
+
   test('arrangementsCount 2', () {
     final input = '''.??..??...?##. 1,1,3''';
 
     print(calculate(input));
 
     // expect(calculate(input), 4);
+  });
+
+  test('arrangementsCount 3', () {
+    final input = '''?#?#?#?#?#?#?#? 1,3,1,6''';
+
+    print(calculate(input));
+
+    // expect(calculate(input), 1);
+  });
+
+  test('arrangementsCount 6', () {
+    final input = '''?###???????? 3,2,1''';
+
+    print(calculate(input));
+
+    // expect(calculate(input), 10);
+  });
+
+  test('arrangementsCount 7', () {
+    final input = '''??#?##??##???? 1,8''';
+
+    print(calculate(input));
+
+    // expect(calculate(input), 15);
   });
 
   test('calculate', () {

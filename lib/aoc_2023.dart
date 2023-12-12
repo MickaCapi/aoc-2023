@@ -10,38 +10,41 @@ int calculate(String input) {
 
 int arrangementsCount(String record) {
   final statesDamageCounts = record.split(' ');
-  final states = statesDamageCounts[0].split('');
-  final unknownStatesCount = states.where((e) => e == '?').length;
+  final states = statesDamageCounts[0];
   final damageCounts =
       statesDamageCounts[1].split(',').map((e) => int.parse(e)).toList();
 
-  final possibleStates =
-      List.generate(pow(2, unknownStatesCount).toInt(), (index) => '');
-  final possibleStatesLength = possibleStates.length;
-  for (var i = 0; i < possibleStatesLength; i++) {
-    var unknownStatesIndex = unknownStatesCount;
-
-    for (var j = 0; j < states.length; j++) {
-      final state = states[j];
-      switch (state) {
-        case '#':
-        case '.':
-          possibleStates[i] += state;
-          break;
-        case '?':
-          if ((i ~/ (possibleStatesLength / pow(2, unknownStatesIndex)) % 2) ==
-              0) {
-            possibleStates[i] += '#';
-          } else {
-            possibleStates[i] += '.';
-          }
-          unknownStatesIndex--;
-          break;
+  var count = 0;
+  final firstDamage = damageCounts[0];
+  var hashFound = false;
+  for (var i = 0; i < states.length; i++) {
+    // print('$i - $record');
+    if (i + firstDamage > states.length) {
+      break;
+    }
+    final stateSubstring = states.substring(i, i + firstDamage);
+    if (hashFound && stateSubstring[0] != '#') {
+      break;
+    }
+    hashFound = stateSubstring[0].contains('#');
+    if (!stateSubstring.replaceAll('?', '#').contains('.') &&
+        (states.length == i + firstDamage || states[i + firstDamage] != '#') &&
+        (i == 0 || states[i - 1] != '#')) {
+      if (damageCounts.length == 1) {
+        if (states.substring(i + firstDamage).contains('#')) {
+          continue;
+        }
+        // print('count + 1');
+        count += 1;
+      } else {
+        if (i + firstDamage + 1 > states.length) {
+          continue;
+        }
+        count += arrangementsCount(
+            '${states.substring(i + firstDamage + (stateSubstring != '.' ? 1 : 0))} ${damageCounts.sublist(1).join(',')}');
       }
     }
   }
 
-  final source = '^\\.*${damageCounts.map((e) => '#{$e}').join(r'\.+')}\\.*\$';
-
-  return possibleStates.where((e) => RegExp(source).hasMatch(e)).length;
+  return count;
 }
