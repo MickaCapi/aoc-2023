@@ -1,7 +1,6 @@
 /*
 
 */
-import 'dart:math';
 
 int calculate(String input) {
   return input.split('\n\n').map((e) {
@@ -12,9 +11,11 @@ int calculate(String input) {
 int patternValue(String pattern) {
   // Horizontal
   final rows = pattern.split('\n');
-  var value = 0;
+  final rowValue = valueOf(rows) * 100;
 
-  value += valueOf(rows) * 100;
+  if (rowValue > 0) {
+    return rowValue;
+  }
 
   // Vertical
   final columns = List.generate(rows[0].length, (_) => '');
@@ -25,7 +26,7 @@ int patternValue(String pattern) {
     }
   }
 
-  return value + valueOf(columns);
+  return valueOf(columns);
 }
 
 int valueOf(List<String> list) {
@@ -37,15 +38,31 @@ int valueOf(List<String> list) {
   for (var i = min; i < max; i++) {
     var currentMin = i;
     var currentMax = i + 1;
-    while (list[currentMin] == list[currentMax]) {
+    var differencesTotalCount =
+        differencesCount(list[currentMin], list[currentMax]);
+    while (differencesTotalCount <= 1) {
       currentMin--;
       currentMax++;
-      if (currentMin < min || currentMax > max) {
-        value += i + 1;
+      if ((currentMin < min || currentMax > max)) {
+        if (differencesTotalCount == 1) {
+          return i + 1;
+        }
         continue lineLoop;
       }
+      differencesTotalCount +=
+          differencesCount(list[currentMin], list[currentMax]);
     }
   }
 
   return value;
+}
+
+int differencesCount(String s1, String s2) {
+  var differences = 0;
+  for (var j = 0; j < s1.length; j++) {
+    if (s1[j] != s2[j]) {
+      differences++;
+    }
+  }
+  return differences;
 }
