@@ -31,6 +31,39 @@ O..#.OO...
 #....#....''');
   });
 
+  test('tiltToWest', () {
+    final input = '''O..
+.O.
+O.O'''
+        .split('\n')
+        .map((e) => e.split('').toList())
+        .toList();
+
+    print(tiltToWest(input).map((e) => e.join('')).join('\n'));
+  });
+
+  test('tiltToSouth', () {
+    final input = '''O..
+.O.
+O.O'''
+        .split('\n')
+        .map((e) => e.split('').toList())
+        .toList();
+
+    print(tiltToSouth(input).map((e) => e.join('')).join('\n'));
+  });
+
+  test('tiltToEast', () {
+    final input = '''..O
+.O.
+O.O'''
+        .split('\n')
+        .map((e) => e.split('').toList())
+        .toList();
+
+    print(tiltToEast(input).map((e) => e.join('')).join('\n'));
+  });
+
   test('calculate', () {
     final input = '''O....#....
 O.OO#....#
