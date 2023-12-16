@@ -1,6 +1,7 @@
 /*
 
 */
+
 import 'dart:math';
 
 int calculate(String input) {
@@ -9,10 +10,51 @@ int calculate(String input) {
   final rowCount = characters.length;
   final columnCount = characters[0].length;
 
+  final startingBeams = [];
+  for (var rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+    // Left
+    startingBeams.add(
+      Beam(
+        previousTile: (-1, rowIndex),
+        currentTile: (0, rowIndex),
+      ),
+    );
+    // Right
+    startingBeams.add(
+      Beam(
+        previousTile: (columnCount, rowIndex),
+        currentTile: (columnCount - 1, rowIndex),
+      ),
+    );
+  }
+  for (var columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+    // Top
+    startingBeams.add(
+      Beam(
+        previousTile: (columnIndex, -1),
+        currentTile: (columnIndex, 0),
+      ),
+    );
+    // Bottom
+    startingBeams.add(
+      Beam(
+        previousTile: (columnIndex, rowCount),
+        currentTile: (columnIndex, rowCount - 1),
+      ),
+    );
+  }
+
+  return startingBeams
+      .map((e) => energizedTilesCount(characters, e))
+      .reduce(max);
+}
+
+int energizedTilesCount(List<List<String>> characters, Beam startingBeam) {
+  final rowCount = characters.length;
+  final columnCount = characters[0].length;
+
   final beamHistory = <Beam>{};
-  var beams = [
-    Beam(previousTile: (-1, 0), currentTile: (0, 0)),
-  ];
+  var beams = [startingBeam];
   while (beams.isNotEmpty) {
     // print(beams);
     final nextBeams = <Beam>[];
